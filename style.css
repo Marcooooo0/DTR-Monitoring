@@ -155,3 +155,47 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, td, th {
     font-size: 1.2rem; 
     font-weight: bold; 
 }
+
+/* --- PRINT-FRIENDLY STYLES --- */
+        @media print {
+            body { background-color: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
+            * { color: #000 !important; background: transparent !important; box-shadow: none !important; text-shadow: none !important; }
+            
+            /* Hide UI controls and animated background */
+            .no-print, #fluidCanvas, button, input, form, .input-group { display: none !important; }
+            
+            /* Format Cards for Paper */
+            .card { border: none !important; margin-bottom: 15px !important; }
+            .card-header { font-size: 1.2rem; border-bottom: 2px solid #000 !important; padding: 0 0 5px 0 !important; background-color: #fff !important; color: #000 !important; margin-bottom: 10px; font-weight: bold !important; }
+            
+            /* Force All Info Labels to Pitch Black */
+            .info-label { color: #000 !important; font-weight: bold !important; }
+            .info-value { color: #000 !important; }
+
+            /* Fix Progress Bar Decimals & Visibility */
+            .progress { 
+                border: 1px solid #000 !important; 
+                background-color: #fff !important; 
+                overflow: visible !important; /* Prevents the decimal from being cut off */
+                height: 30px !important;
+            }
+            .progress-bar { 
+                color: #000 !important; 
+                background-color: #ddd !important; /* Light gray for the printed bar */
+                overflow: visible !important; 
+                white-space: nowrap !important; /* Forces the text to stay on one line */
+                -webkit-print-color-adjust: exact !important; /* Forces the browser to print the bar color */
+                print-color-adjust: exact !important;
+            }
+            
+            /* Format Tables for Paper */
+            .table-responsive { overflow: visible !important; max-height: none !important; }
+            .table { width: 100% !important; border-collapse: collapse !important; border: 2px solid #000 !important; }
+            .table th, .table td { border: 1px solid #000 !important; padding: 8px !important; color: #000 !important; }
+            .table-dark { --bs-table-bg: transparent; --bs-table-striped-bg: transparent; }
+            
+            /* Hide specific non-report widgets */
+            .card:has(#weatherTemp), .card:has(#taskList), .card:has(#liveClock) { display: none !important; }
+
+            .h2, .h3 { color: #000 !important; }
+        }

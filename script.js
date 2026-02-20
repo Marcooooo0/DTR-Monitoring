@@ -151,6 +151,9 @@ async function fetchDashboardData() {
         // Update UI
         updateGoalProgress(grandTotal);
         document.getElementById("uiOvertimeTotal").innerText = `Total OT: ${totalOT.toFixed(2)} hrs`;
+
+        // ADD THIS NEW LINE RIGHT HERE:
+        document.getElementById("uiRegularTotal").innerText = `Total Regular: ${totalRegular.toFixed(2)} hrs`;
         
         renderAttendanceTable(logs);
         renderOTTable(otLogs);
