@@ -125,13 +125,13 @@ async function fetchDashboardData() {
         if (logError || otError) throw new Error("Database fetch error");
 
         // Calculations
-        let totalRendered = 0;
+        let totalRegular = 0;
         let todayStatus = 'not_started';
         globalActiveSession = null;
         const today = getTodayDate();
 
         logs.forEach(log => {
-            totalRendered += parseFloat(log.regular_hours || 0);
+            totalRegular += parseFloat(log.regular_hours || 0);
             if (log.date_of_attendance === today) {
                 if (!log.time_out) {
                     todayStatus = 'active';
@@ -145,8 +145,11 @@ async function fetchDashboardData() {
         let totalOT = 0;
         otLogs.forEach(ot => totalOT += parseFloat(ot.hours_rendered || 0));
 
+        // NEW: Combine Regular Hours and Overtime for the Grand Total
+        let grandTotal = totalRegular + totalOT;
+
         // Update UI
-        updateGoalProgress(totalRendered);
+        updateGoalProgress(grandTotal);
         document.getElementById("uiOvertimeTotal").innerText = `Total OT: ${totalOT.toFixed(2)} hrs`;
         
         renderAttendanceTable(logs);
@@ -180,6 +183,21 @@ function updateClockButtons(status, activeSession) {
         statusText.innerText = "SHIFT COMPLETED FOR TODAY";
         statusText.style.color = "#888"; 
     }
+}
+
+// UI RENDERING UTILS
+function updateGoalProgress(rendered) {
+    const remaining = Math.max(REQUIRED_HOURS - rendered, 0);
+    const percent = Math.min((rendered / REQUIRED_HOURS) * 100, 100).toFixed(1);
+
+    // NEW: Formatting to display exactly as "Rendered / 486 hrs"
+    document.getElementById("uiTotal").innerText = `${rendered.toFixed(2)} / ${REQUIRED_HOURS} hrs`;
+    document.getElementById("uiRemaining").innerText = remaining.toFixed(2) + " hrs";
+    document.getElementById("uiPercent").innerText = percent + "%";
+    
+    const bar = document.getElementById("progressBar");
+    bar.style.width = percent + "%";
+    bar.innerText = percent + "%";
 }
 
 // UI RENDERING UTILS
