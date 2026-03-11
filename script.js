@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchWeather();
 
     document.getElementById("otDate").value = getTodayDate();
-    document.getElementById("postDate").value = getTodayDate();
+    
 
     // TIME IN ACTION
     document.getElementById("btnTimeIn").addEventListener("click", async () => {
